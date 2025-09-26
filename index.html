@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Happy Birthday - Intro</title>
+	<link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body data-page="intro">
+	<main class="container">
+		<!-- Give the tree its own space so it's fully visible -->
+		<div class="stack center" style="width:100%; max-width:520px; margin-bottom: 8px;">
+			<div class="tree" id="tree" aria-hidden="true">
+				<div class="branch left"></div>
+				<div class="branch right"></div>
+				<div class="crown" id="crown"></div>
+			</div>
+		</div>
+
+		<!-- Message and photo (reduced size); heart shown below message -->
+		<div class="intro-celebrate enter-fade" id="intro-celebrate" style="text-align:center; display:grid; place-items:center; gap:8px; margin-bottom: 10px;">
+			<div class="intro-photo" style="width:270px; height:270px; border-radius:12px; overflow:hidden; box-shadow: 0 8px 24px rgba(0,0,0,.35);">
+				<img src="assets/images/photo 6.jpeg" alt="Birthday photo" style="width:100%; height:100%; object-fit:cover; display:block;">
+			</div>
+			<h2 class="intro-title" style="margin:4px 0 0; font-size:clamp(18px,5.2vw,26px); letter-spacing:.3px;">
+				🥳 <span style="color: rgba(230,57,70,.45);">Happy Birthday</span> 🎉 <span style="color: rgba(230,57,70,.45);">My</span> 🫶 <span style="color: rgba(230,57,70,.45);">jiv</span> 🫂 <span style="color: rgba(230,57,70,.45);">My Madam ji</span> 💕
+			</h2>
+		</div>
+
+		<!-- Heart below the message -->
+		<div class="stack center" id="big-heart-wrap" style="gap:10px; margin-top:24px;">
+			<span id="big-heart" aria-hidden="true" role="img" style="font-size:120px; line-height:1; filter: drop-shadow(0 8px 24px rgba(0,0,0,.25));">❤️</span>
+			<button id="intro-trigger" class="btn" aria-label="Start the surprise">Click Here</button>
+		</div>
+	</main>
+
+	<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Balloons</title>
+	<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="balloons">
+	<main class="container">
+		<section class="stack center" style="z-index:1; width:100%; max-width:720px;">
+    <!-- ✅ Centered Photo Frame -->
+    <div class="photo-frame anim-bob glow-orange" style="margin: 0 auto 15px;">
+        <img src="assets/images/photo 14.jpeg" alt="Birthday Photo" class="enter-delay">
+        <div class="photo-glow"></div>
+    </div>
+			<p class="subtitle" style="margin:0 auto 6px; max-width:640px;">
+				Happy 20th Birthday, my love ❤️🎂✨ Today you shine even brighter 🥳.
+			</p>
+			<button id="launch-seq" class="btn" aria-label="Launch balloons">Launch</button>
+			<div id="balloon-area" class="balloon-area" aria-live="polite" aria-label="Balloons area" style="position:fixed; inset:0; width:100vw; height:100vh; max-width:none; max-height:none; margin:0; overflow:hidden; z-index:0; pointer-events:none;"></div>
+			<a id="continue-btn" class="btn" href="cube.html" style="display:none;">Let’s continue ❤️</a>
+		</section>
+	</main>
+	<script src="assets/js/main.js"></script>
+	<script>
+	(function(){
+		'use strict';
+		const area = document.getElementById('balloon-area');
+		const launch = document.getElementById('launch-seq');
+		const cont = document.getElementById('continue-btn');
+		if (!area || !launch || !cont) return;
+
+		const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+		function spawnEmojiBurst(xWindow, yWindow) {
+			const items = ['✨','🎂','🎁','🎊','✨','✨'];
+			const areaRect = area.getBoundingClientRect();
+			const localX = xWindow - areaRect.left;
+			const localY = yWindow - areaRect.top;
+			for (let i = 0; i < 18; i++) {
+				const e = document.createElement('div');
+				e.textContent = items[i % items.length];
+				e.style.position = 'absolute';
+				e.style.left = localX + 'px';
+				e.style.top = localY + 'px';
+				e.style.fontSize = rand(16, 26) + 'px';
+				e.style.pointerEvents = 'none';
+				e.style.willChange = 'transform, opacity, filter';
+				e.style.textShadow = '0 2px 8px rgba(255,255,255,.7), 0 0 18px rgba(255,126,179,.35)';
+				e.style.filter = 'drop-shadow(0 4px 10px rgba(0,0,0,.25))';
+				area.appendChild(e);
+				const dx = (Math.random() - 0.5) * 220;
+				const dy = (Math.random() - 0.5) * 220;
+				e.animate([
+					{ transform: 'translate(0,0) scale(0.95)', opacity: 1, filter: 'brightness(1) saturate(1)' },
+					{ transform: `translate(${dx}px, ${dy}px) scale(1.05)`, opacity: 0, filter: 'brightness(1.2) saturate(1.2)' }
+				], { duration: 1200, easing: 'cubic-bezier(.2,.7,.2,1)' });
+				setTimeout(() => e.remove(), 1250);
+			}
+		}
+
+		function createBalloon(n) {
+			const b = document.createElement('div');
+			b.className = 'balloon';
+			b.style.left = rand(10, 80) + 'vw';
+			b.style.animationDuration = '4s';
+			const label = document.createElement('span');
+			label.textContent = String(n);
+			label.style.position = 'absolute';
+			label.style.left = '50%';
+			label.style.top = '50%';
+			label.style.transform = 'translate(-50%, -50%)';
+			label.style.fontWeight = '700';
+			label.style.color = '#fff';
+			label.style.textShadow = '0 2px 6px rgba(0,0,0,.5)';
+			area.appendChild(b);
+			b.appendChild(label);
+			return b;
+		}
+
+		function popBalloon(b) {
+			if (!b || !b.isConnected) return;
+			const r = b.getBoundingClientRect();
+			b.animate([
+				{ transform: 'scale(1)', opacity: 1, filter: 'brightness(1) saturate(1)' },
+				{ transform: 'scale(1.12)', opacity: 1, filter: 'brightness(1.15) saturate(1.1)' },
+				{ transform: 'scale(0.6)', opacity: 0, filter: 'brightness(1.1) saturate(1.05)' }
+			], { duration: 2000, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'forwards' });
+			spawnEmojiBurst(r.left + r.width / 2, r.top + r.height / 2);
+			setTimeout(() => b.remove(), 2050);
+		}
+
+		async function runSequence() {
+			launch.disabled = true;
+			for (let i = 1; i <= 20; i++) {   // 🔥 now exactly 20 balloons
+				const balloon = createBalloon(i);
+				await new Promise(res => setTimeout(res, 2000));
+				popBalloon(balloon);
+				await new Promise(res => setTimeout(res, 300));
+			}
+			cont.style.display = 'inline-block';
+		}
+
+		launch.addEventListener('click', runSequence);
+	})();
+	</script>
+</body>
+</html>
